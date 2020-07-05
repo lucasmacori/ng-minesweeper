@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Row } from 'src/models/row.model';
 import { Cell } from 'src/models/cell.model';
+import { Coordinates } from 'src/models/coordinates.model';
 
 // Icons
 import { IconDefinition, faBomb, faFlag } from '@fortawesome/free-solid-svg-icons';
@@ -46,17 +47,17 @@ export class MsGridComponent implements OnInit {
     this.width = (this.width && this.width >= 4) ? this.width : 9;
     this.height = (this.height && this.height >= 4) ? this.height : 9;
 
-    // Game settings
-    this.bombs = Math.round((this.width * this.height) * 0.125); // In this case 1 cell out of 8 is a bomb
+    // Planting the bombs
+    const bombsCoordinates = this.plantBombs();
 
     // Building the board
     for (let i = 0; i < this.height; i++) {
       const cells = [];
       for (let j = 0; j < this.width; j++) {
         const cell: Cell = {
-          isBomb: true,
+          isBomb: this.coordinatesAreContained(bombsCoordinates, j, i),
           isFlagged: false,
-          nearbyBombs: 2,
+          nearbyBombs: 0,
           isClicked: false
         };
         cells.push(cell);
@@ -66,6 +67,40 @@ export class MsGridComponent implements OnInit {
 
     this.isEnded = false;
     this.gridIsReady = true;
+  }
+
+  /**
+   * Returns the list of random bombs coordinates 
+   */
+  private plantBombs(): Array<Coordinates> {
+    const coordinatesArray = new Array<Coordinates>();
+    let plantedBombs = 0;
+
+    // Define the number of bombs to be planted
+    this.bombs = Math.round((this.width * this.height) * 0.125); // In this case 1 cell out of 8 is a bomb
+
+    // Planting the bombs
+    while (this.bombs > plantedBombs) {
+      const x = Math.floor((Math.random() * this.width) + 0);
+      const y = Math.floor((Math.random() * this.height) + 0);
+      const coordinates: Coordinates = { x: x, y: y };
+      if (!this.coordinatesAreContained(coordinatesArray, x, y)) {
+        coordinatesArray.push(coordinates);
+        plantedBombs++;
+      }
+    }
+
+    return coordinatesArray;
+  }
+
+  /**
+   * Return whether or not the given coordinates can be found inside the given array of coordinates
+   * @param arrayOfCoordinates The array of coordinates to look through
+   * @param x The x of the coordinates to find
+   * @param y The y of the coordinates to find
+   */
+  private coordinatesAreContained(arrayOfCoordinates: Array<Coordinates>, x: number, y: number): boolean {
+    return arrayOfCoordinates.some((element) => element.x === x && element.y === y)
   }
 
   /**
