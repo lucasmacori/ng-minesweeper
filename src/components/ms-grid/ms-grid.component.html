@@ -1,0 +1,22 @@
+<div class="game" *ngIf="gridIsReady">
+    <div class="row" *ngFor="let row of rows">
+        <div *ngFor="let cell of row.cells" [ngClass]="{ 'cell': true, 'clicked': cell.isClicked, 'flagged': cell.isFlagged,
+            'bomb': cell.isBomb && cell.isClicked }" (click)="clickCell(cell)"
+            (contextmenu)="flagCell(cell)">
+
+            <!-- Flagged cells -->
+            <fa-icon [icon]="faFlag" class="item flag" *ngIf="cell.isFlagged"></fa-icon>
+
+            <!-- Bombs -->
+            <fa-icon [icon]="faBomb" class="item bomb"  *ngIf="cell.isBomb && cell.isClicked"></fa-icon>
+
+            <!-- Cells with bombs nearby -->
+            <span [ngClass]="{ 'item': true, 'text': true, 'one': cell.nearbyBombs === 1, 'two': cell.nearbyBombs === 2,
+                'three': cell.nearbyBombs === 3, 'four': cell.nearbyBombs >= 4 }"
+                *ngIf="!cell.isBomb && cell.isClicked && cell.nearbyBombs > 0">
+                {{ cell.nearbyBombs }}
+            </span>
+
+        </div>
+    </div>
+</div>

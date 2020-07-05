@@ -1,0 +1,52 @@
+%icon {
+    position: relative;
+    top: 5px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    .cell {
+        background-color: #456BAA;
+        border-radius: .20em;
+        width: 50px;
+        height: 50px;
+        margin: 5px 5px 5px 5px;
+        display: inline-block;
+        cursor: pointer;
+        .item {
+            display: flex;
+            justify-content: center;
+            font-size: 30pt;
+        }
+        .item.flag {
+            @extend %icon;
+            color: white;
+        }
+        .item.bomb {
+            @extend %icon;
+            color: #393939;
+        }
+        .item.text.one {
+            color: #25BB97;
+        }
+        .item.text.two {
+            color: #B6AD3B;
+        }
+        .item.text.three {
+            color: #E99121;
+        }
+        .item.text.four {
+            color: #BB2535;
+        }
+    }
+    .clicked {
+        background-color: #E3E3E3;
+    }
+    .flagged {
+        background-color: #25BB97;
+    }
+    .bomb {
+        background-color: #BB2535;
+    }
+}
