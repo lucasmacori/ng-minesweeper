@@ -30,6 +30,7 @@ export class MsGridComponent implements OnInit {
   public bombs: number;
 
   constructor() {
+    this.end = new EventEmitter<boolean>();
     this.gridIsReady = false;
     this.rows = [];
   }
@@ -54,10 +55,25 @@ export class MsGridComponent implements OnInit {
     for (let i = 0; i < this.height; i++) {
       const cells = [];
       for (let j = 0; j < this.width; j++) {
+
+        const isBomb = this.coordinatesAreContained(bombsCoordinates, j, i);
+        let nearbyBombs = 0;
+        if (!isBomb) {
+          // Checking for nearby bombs
+          for (let y = i - 1; y <= i + 1; y++) {
+            for (let x = j - 1; x <= j + 1; x++) {
+              if (this.coordinatesAreContained(bombsCoordinates, x, y)) {
+                nearbyBombs++;
+              }
+            }
+          }
+        }
+
+        // Creating the cell
         const cell: Cell = {
-          isBomb: this.coordinatesAreContained(bombsCoordinates, j, i),
+          isBomb: isBomb,
           isFlagged: false,
-          nearbyBombs: 0,
+          nearbyBombs: nearbyBombs,
           isClicked: false
         };
         cells.push(cell);

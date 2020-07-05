@@ -5,10 +5,10 @@
             (contextmenu)="flagCell(cell)">
 
             <!-- Flagged cells -->
-            <fa-icon [icon]="faFlag" class="item flag" *ngIf="cell.isFlagged"></fa-icon>
+            <fa-icon [icon]="faFlag" class="item flag" *ngIf="cell.isFlagged && !cell.isClicked"></fa-icon>
 
             <!-- Bombs -->
-            <fa-icon [icon]="faBomb" class="item bomb"  *ngIf="cell.isBomb"></fa-icon>
+            <fa-icon [icon]="faBomb" class="item bomb"  *ngIf="cell.isBomb && cell.isClicked"></fa-icon>
 
             <!-- Cells with bombs nearby -->
             <span [ngClass]="{ 'item': true, 'text': true, 'one': cell.nearbyBombs === 1, 'two': cell.nearbyBombs === 2,
