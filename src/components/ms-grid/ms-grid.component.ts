@@ -18,6 +18,7 @@ export class MsGridComponent implements OnInit {
   @Input() height: number;
 
   // Outputs
+  @Output() flag: EventEmitter<boolean>;
   @Output() end: EventEmitter<boolean>;
 
   // Icons
@@ -28,9 +29,11 @@ export class MsGridComponent implements OnInit {
   public isEnded: boolean;
   public rows: Array<Row>;
   public bombs: number;
+  private bombsCoordinates = Array<Coordinates>();
 
   constructor() {
     this.end = new EventEmitter<boolean>();
+    this.flag = new EventEmitter<boolean>();
     this.gridIsReady = false;
     this.rows = [];
   }
@@ -49,24 +52,18 @@ export class MsGridComponent implements OnInit {
     this.height = (this.height && this.height >= 4) ? this.height : 9;
 
     // Planting the bombs
-    const bombsCoordinates = this.plantBombs();
+    this.bombsCoordinates = this.plantBombs();
 
     // Building the board
     for (let i = 0; i < this.height; i++) {
       const cells = [];
       for (let j = 0; j < this.width; j++) {
 
-        const isBomb = this.coordinatesAreContained(bombsCoordinates, j, i);
+        const isBomb = this.coordinatesAreContained(this.bombsCoordinates, j, i);
         let nearbyBombs = 0;
         if (!isBomb) {
           // Checking for nearby bombs
-          for (let y = i - 1; y <= i + 1; y++) {
-            for (let x = j - 1; x <= j + 1; x++) {
-              if (this.coordinatesAreContained(bombsCoordinates, x, y)) {
-                nearbyBombs++;
-              }
-            }
-          }
+          nearbyBombs = this.cellHasBombNearby(i, j);
         }
 
         // Creating the cell
@@ -120,16 +117,80 @@ export class MsGridComponent implements OnInit {
   }
 
   /**
+   * 
+   * @param bombsCoordinates The coordinates of the bombs
+   * @param i y coordinates from the original loop
+   * @param j x coordinates from the original loop
+   * @param recursive If set to 'true', will check other nearby cells and auto click them
+   */
+  private cellHasBombNearby(i: number, j: number): number {
+    let nearbyBombs = 0;
+
+    for (let y = i - 1; y <= i + 1; y++) {
+      for (let x = j - 1; x <= j + 1; x++) {
+        if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+          if (this.coordinatesAreContained(this.bombsCoordinates, x, y)) {
+            nearbyBombs++;
+          }
+        }
+      }
+    }
+
+    return nearbyBombs;
+  }
+
+  /**
+   * Automatically reveal empty cells near a clicked cell
+   * @param i y coordinates from the original loop
+   * @param j x coordinates from the original loop
+   */
+  private revealNearbyEmptyCells(i: number, j: number): void {
+
+    // Brwosing the nearby cells
+    for (let y = i - 1; y <= i + 1; y++) {
+      for (let x = j - 1; x <= j + 1; x++) {
+        console.log(x, y);
+        if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+
+          // Fetching the cell and checking that it does not contain a bomb and isn't clicked
+          const cell = this.getCellFromCoordinates(x, y);
+          if (!this.coordinatesAreContained(this.bombsCoordinates, x, y) && !cell.isClicked) {
+
+            // Clicking the cell
+            cell.isClicked = true;
+
+            // Revealing other nearby cells if the cell is empty
+            if (cell.nearbyBombs === 0) {
+              this.revealNearbyEmptyCells(y, x);
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  /**
+   * Gets the cell object from given coordinates
+   * @param x The x coordinate of the cell
+   * @param y The y coordinate of the cell
+   */
+  private getCellFromCoordinates(x: number, y: number): Cell {
+    return this.rows[y].cells[x];
+  }
+
+  /**
    * Shows the number of nearby bombs or the bomb itself when the user clicks on a cell
    * @param cell The cell to click
    */
-  public clickCell(cell: Cell): void {
+  public clickCell(cell: Cell, x: number, y: number): void {
     if (!this.isEnded) {
       cell.isClicked = true;
 
-      // Click actions
       if (cell.isBomb) {
         this.endOfGame(false);
+      } else {
+        this.revealNearbyEmptyCells(x, y);
       }
     }
   }
@@ -140,7 +201,8 @@ export class MsGridComponent implements OnInit {
    */
   public flagCell(cell: Cell): boolean {
     if (!cell.isClicked && !this.isEnded) {
-      cell.isFlagged = true;
+      cell.isFlagged = cell.isFlagged ? false : true;
+      this.flag.emit(cell.isFlagged);
     }
 
     // Returning false so that the browser context menu doesn't open

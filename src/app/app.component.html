@@ -1,1 +1,2 @@
-<app-ms-grid></app-ms-grid>
+<app-ms-header [bombs]="bombs"></app-ms-header>
+<app-ms-grid #grid (end)="endGame($event)" (flag)="toggleFlagCell($event)"></app-ms-grid>

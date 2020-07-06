@@ -1,7 +1,7 @@
 <div class="game" *ngIf="gridIsReady">
-    <div class="row" *ngFor="let row of rows">
-        <div *ngFor="let cell of row.cells" [ngClass]="{ 'cell': true, 'clicked': cell.isClicked, 'flagged': cell.isFlagged,
-            'bomb': cell.isBomb && cell.isClicked }" (click)="clickCell(cell)"
+    <div class="row" *ngFor="let row of rows; let y = index">
+        <div *ngFor="let cell of row.cells; let x = index" [ngClass]="{ 'cell': true, 'clicked': cell.isClicked, 'flagged': cell.isFlagged,
+            'bomb': cell.isBomb && cell.isClicked }" (click)="clickCell(cell, x, y)"
             (contextmenu)="flagCell(cell)">
 
             <!-- Flagged cells -->
