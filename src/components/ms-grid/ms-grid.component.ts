@@ -144,28 +144,31 @@ export class MsGridComponent implements OnInit {
    * @param i y coordinates from the original loop
    * @param j x coordinates from the original loop
    */
-  private revealNearbyEmptyCells(i: number, j: number): void {
+  private revealNearbyEmptyCells(x: number, y: number): void {
 
-    // Brwosing the nearby cells
-    for (let y = i - 1; y <= i + 1; y++) {
-      for (let x = j - 1; x <= j + 1; x++) {
-        console.log(x, y);
-        if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+    const originalCell = this.getCellFromCoordinates(x, y);
 
-          // Fetching the cell and checking that it does not contain a bomb and isn't clicked
-          const cell = this.getCellFromCoordinates(x, y);
-          if (!this.coordinatesAreContained(this.bombsCoordinates, x, y) && !cell.isClicked) {
-
-            // Clicking the cell
-            cell.isClicked = true;
-
-            // Revealing other nearby cells if the cell is empty
-            if (cell.nearbyBombs === 0) {
-              this.revealNearbyEmptyCells(y, x);
+    // Browsing the nearby cells
+    if (originalCell.nearbyBombs === 0) {
+      for (let currenty = y - 1; currenty <= y + 1; currenty++) {
+        for (let currentx = x - 1; currentx <= x + 1; currentx++) {
+          if (currentx >= 0 && currentx < this.width && currenty >= 0 && currenty < this.height) {
+  
+            // Fetching the cell and checking that it does not contain a bomb and isn't clicked
+            const cell = this.getCellFromCoordinates(currentx, currenty);
+            if (!this.coordinatesAreContained(this.bombsCoordinates, currentx, currenty) && !cell.isClicked) {
+  
+              // Clicking the cell
+              cell.isClicked = true;
+  
+              // Revealing other nearby cells if the cell is empty
+              if (cell.nearbyBombs === 0) {
+                console.log('Reveal: ', currentx, currenty);
+                this.revealNearbyEmptyCells(currenty, currentx);
+              }
             }
           }
         }
-
       }
     }
   }
