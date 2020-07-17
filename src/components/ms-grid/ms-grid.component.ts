@@ -20,7 +20,7 @@ export class MsGridComponent implements OnInit {
   // Outputs
   @Output() flag: EventEmitter<boolean>;
   @Output() end: EventEmitter<boolean>;
-  @Output() restart: EventEmitter<null>;
+  @Output() restart: EventEmitter<number>;
 
   // Icons
   public faFlag: IconDefinition = faFlag;
@@ -38,20 +38,20 @@ export class MsGridComponent implements OnInit {
   constructor() {
     this.flag = new EventEmitter<boolean>();
     this.end = new EventEmitter<boolean>();
-    this.restart = new EventEmitter<null>();
+    this.restart = new EventEmitter<number>();
     this.gridIsReady = false;
     this.rows = [];
   }
 
   ngOnInit(): void {
-    this.startGame(false);
+    this.startGame();
   }
 
   /**
    * Initializes a new game
    * This function is automatically called when the component initializes but can be called again by the parent to restart
    */
-  public startGame(restart: boolean = true): void {
+  public startGame(): void {
     this.rows = new Array<Row>();
 
     // Grid classes
@@ -91,9 +91,7 @@ export class MsGridComponent implements OnInit {
     this.isEnded = false;
     this.gridIsReady = true;
 
-    if (restart) {
-      this.restart.emit();
-    }
+    this.restart.emit(this.bombs);
   }
 
   /**

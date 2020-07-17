@@ -1,35 +1,37 @@
-import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { MsGridComponent } from 'src/components/ms-grid/ms-grid.component';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { MenuSelection } from 'src/models/menuSelection.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   title = 'minesweeper';
 
-  // View childs
-  @ViewChild('grid') grid: MsGridComponent;
+  // Menu
+  public selected: boolean;
+  public menuSelection: MenuSelection;
 
+  // Game
   public bombs: number;
   public flags: number;
   public win: boolean;
 
-  constructor (private cdref: ChangeDetectorRef) { }
-
-  ngAfterViewInit(): void {
-    this.restart();
-
-    // Used to tell Angular that changes occured. Otherwise an error pops in the console since the value hass been changed
-    this.cdref.detectChanges();
+  constructor (private changeDetector: ChangeDetectorRef) {
+    this.selected = false;
   }
 
-  public restart(): void {
+  public selection(menuSelection: MenuSelection): void {
+    this.selected = true;
+    this.menuSelection = menuSelection;
+  }
+
+  public restart(bombs: number): void {
     this.win = undefined;
-    this.bombs = 0;
+    this.bombs = bombs;
     this.flags = 0;
-    this.bombs = this.grid.bombs;
+    this.changeDetector.detectChanges();
   }
 
   /**
@@ -41,7 +43,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   /**
-   * Removes or add a bomb in the header component
+   * Removes or add a fl in the header component
    * @param flag Whether the user flagged or unflagged the cell
    */
   public toggleFlagCell(flag: boolean): void {

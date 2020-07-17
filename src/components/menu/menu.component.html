@@ -1,0 +1,38 @@
+<div class="menu">
+
+    <!-- Logo -->
+    <div class="logo">
+        <fa-icon [icon]="faBomb" class="icon"></fa-icon>
+        <h1>MINESWEEPER</h1>
+    </div>
+
+    <!-- Difficulty selection buttons -->
+    <div class="buttons">
+
+        <!-- Easy -->
+        <div class="easy button" (click)="selectMode('EASY')">
+            <span class="text">EASY</span>
+        </div>
+    
+        <!-- Normal -->
+        <div class="normal button" (click)="selectMode('NORMAL')">
+            <span class="text">NORMAL</span>
+        </div>
+    
+        <!-- Hard -->
+        <div class="hard button" (click)="selectMode('HARD')">
+            <span class="text">HARD</span>
+        </div>
+    
+        <!-- Hardcore -->
+        <div class="hardcore button" (click)="selectMode('HARDCORE')">
+            <span class="text">HARDCORE</span>
+        </div>
+
+        <!-- Custom -->
+        <div class="custom button">
+            <fa-icon [icon]="faWrench" class="icon"></fa-icon>
+            <span class="text">CUSTOM</span>
+        </div>
+    </div>
+</div>

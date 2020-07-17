@@ -1,0 +1,57 @@
+@import "../../styles.scss";
+
+.logo {
+    text-align: center;
+    color: $gray-color;
+    * {
+        display: inline-block;
+    }
+    .icon {
+        font-size: 50pt;
+        position: relative;
+        top: 5px;
+        right: 5px;
+    }
+}
+
+.menu {
+    width: 500px;
+    margin: auto;
+    .buttons {
+        .button {
+            margin-top: 10px;
+            width: 100%;
+            min-height: 50px;
+            padding: 10px;
+            border-radius: .65em;
+            color: white;
+            font-size: xx-large;
+            text-align: center;
+            cursor: pointer;
+            .icon {
+                position: relative;
+                right: 5px;
+                top: 5px;
+            }
+            .text {
+                position: relative;
+                top: 5px;
+            }
+        }
+        .easy.button {
+            background-color: $ok-color;
+        }
+        .normal.button {
+            background-color: $warning-color;
+        }
+        .hard.button {
+            background-color: $bomb-color;
+        }
+        .hardcore.button {
+            background-color: $gray-color;
+        }
+        .custom.button {
+            background-color: $cell-bg-color;
+        }
+    }
+}

@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 import { MsGridComponent } from './../components/ms-grid/ms-grid.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MsHeaderComponent } from '../components/ms-header/ms-header.component';
+import { MenuComponent } from '../components/menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MsGridComponent,
-    MsHeaderComponent
+    MsHeaderComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
