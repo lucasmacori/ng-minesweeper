@@ -153,7 +153,7 @@ export class MsGridComponent implements OnInit {
       for (let currenty = y - 1; currenty <= y + 1; currenty++) {
         for (let currentx = x - 1; currentx <= x + 1; currentx++) {
           if (currentx >= 0 && currentx < this.width && currenty >= 0 && currenty < this.height) {
-  
+
             // Fetching the cell and checking that it does not contain a bomb and isn't clicked
             const cell = this.getCellFromCoordinates(currentx, currenty);
             if (!this.coordinatesAreContained(this.bombsCoordinates, currentx, currenty) && !cell.isClicked) {
@@ -163,8 +163,7 @@ export class MsGridComponent implements OnInit {
   
               // Revealing other nearby cells if the cell is empty
               if (cell.nearbyBombs === 0) {
-                console.log('Reveal: ', currentx, currenty);
-                this.revealNearbyEmptyCells(currenty, currentx);
+                this.revealNearbyEmptyCells(currentx, currenty);
               }
             }
           }
