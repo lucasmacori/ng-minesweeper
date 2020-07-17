@@ -95,3 +95,14 @@
         cursor: default;
     }
 }
+
+footer {
+    text-align: center;
+    .icon.github {
+        font-size: xx-large;
+        color: $gray-color;
+    }
+    .icon.red {
+        color: $bomb-color;
+    }
+}

@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { IconDefinition, faWrench, faBomb, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faWrench, faBomb, faArrowLeft, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faGithub, faAngular } from '@fortawesome/free-brands-svg-icons';
 import { MenuSelection } from './../../models/menuSelection.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -16,6 +17,9 @@ export class MenuComponent implements OnInit {
   public faBomb: IconDefinition = faBomb;
   public faWrench: IconDefinition = faWrench;
   public faArrowLeft: IconDefinition = faArrowLeft;
+  public faAngular: IconDefinition = faAngular;
+  public faHeart: IconDefinition = faHeart;
+  public faGithub: IconDefinition = faGithub;
 
   // Custom menu
   public showCustomMenu: boolean;
