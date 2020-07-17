@@ -1,5 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { MenuSelection } from 'src/models/menuSelection.model';
+import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,9 @@ import { MenuSelection } from 'src/models/menuSelection.model';
 })
 export class AppComponent {
   title = 'minesweeper';
+
+  // Icons
+  public faTimes: IconDefinition = faTimes;
 
   // Menu
   public selected: boolean;
@@ -40,6 +44,14 @@ export class AppComponent {
    */
   public endGame(win: boolean): void {
     this.win = win;
+  }
+
+  /**
+   * Stops the game and go back to the main menu
+   */
+  public stop(): void {
+    this.menuSelection = undefined;
+    this.selected = false;
   }
 
   /**
