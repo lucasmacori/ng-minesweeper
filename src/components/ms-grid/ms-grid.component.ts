@@ -4,7 +4,7 @@ import { Cell } from 'src/models/cell.model';
 import { Coordinates } from 'src/models/coordinates.model';
 
 // Icons
-import { IconDefinition, faBomb, faFlag } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faBomb, faFlag, faRedo } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-ms-grid',
@@ -20,10 +20,14 @@ export class MsGridComponent implements OnInit {
   // Outputs
   @Output() flag: EventEmitter<boolean>;
   @Output() end: EventEmitter<boolean>;
+  @Output() restart: EventEmitter<null>;
 
   // Icons
   public faFlag: IconDefinition = faFlag;
   public faBomb: IconDefinition = faBomb;
+  public faRedo: IconDefinition = faRedo;
+
+  public gridClasses: object;
 
   public gridIsReady: boolean;
   public isEnded: boolean;
@@ -32,21 +36,27 @@ export class MsGridComponent implements OnInit {
   private bombsCoordinates = Array<Coordinates>();
 
   constructor() {
-    this.end = new EventEmitter<boolean>();
     this.flag = new EventEmitter<boolean>();
+    this.end = new EventEmitter<boolean>();
+    this.restart = new EventEmitter<null>();
     this.gridIsReady = false;
     this.rows = [];
   }
 
   ngOnInit(): void {
-    this.startGame();
+    this.startGame(false);
   }
 
   /**
    * Initializes a new game
    * This function is automatically called when the component initializes but can be called again by the parent to restart
    */
-  public startGame(): void {
+  public startGame(restart: boolean = true): void {
+    this.rows = new Array<Row>();
+
+    // Grid classes
+    this.gridClasses = { halfOpacity: false, selectable: true };
+
     // Default values
     this.width = (this.width && this.width >= 4) ? this.width : 9;
     this.height = (this.height && this.height >= 4) ? this.height : 9;
@@ -80,6 +90,10 @@ export class MsGridComponent implements OnInit {
 
     this.isEnded = false;
     this.gridIsReady = true;
+
+    if (restart) {
+      this.restart.emit();
+    }
   }
 
   /**
@@ -173,6 +187,26 @@ export class MsGridComponent implements OnInit {
   }
 
   /**
+   * Checks the grid to find out if the player won or is still playing
+   */
+  private isWin(): boolean {
+    let uncheckedCells = 0;
+
+    if (!this.isEnded) {
+      for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.width; x++) {
+          const cell = this.getCellFromCoordinates(x, y);
+          if (!cell.isClicked) {
+            uncheckedCells++;
+          }
+        }
+      }
+    }
+
+    return uncheckedCells === this.bombs;
+  }
+
+  /**
    * Gets the cell object from given coordinates
    * @param x The x coordinate of the cell
    * @param y The y coordinate of the cell
@@ -193,6 +227,9 @@ export class MsGridComponent implements OnInit {
         this.endOfGame(false);
       } else {
         this.revealNearbyEmptyCells(x, y);
+        if (this.isWin()) {
+          this.endOfGame(true);
+        }
       }
     }
   }
@@ -218,6 +255,8 @@ export class MsGridComponent implements OnInit {
   private endOfGame(win: boolean): void {
     this.isEnded = true;
     this.end.emit(win);
+    this.gridClasses['halfOpacity'] = true;
+    this.gridClasses['selectable'] = false;
   }
 
 }

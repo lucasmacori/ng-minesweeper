@@ -1,4 +1,4 @@
-<app-ms-header class="header" [bombs]="bombs" [flags]="flags"></app-ms-header>
+<app-ms-header class="header" [bombs]="bombs" [flags]="flags" [win]="win"></app-ms-header>
 <div class="grid">
-    <app-ms-grid #grid (end)="endGame($event)" (flag)="toggleFlagCell($event)"></app-ms-grid>
+    <app-ms-grid #grid (end)="endGame($event)" (restart)="restart()" [width]="4" [height]="4" (flag)="toggleFlagCell($event)"></app-ms-grid>
 </div>

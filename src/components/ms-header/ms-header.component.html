@@ -1,23 +1,29 @@
-<div class="header">
+<table class="header">
+    <tr>
+        <!-- Timer -->
+        <td class="item clock">
+            <fa-icon [icon]="faClock" class="icon"></fa-icon>
+            <span class="timer">{{ timer }}</span>
+        </td>
 
-    <!-- Timer -->
-    <div class="item clock">
-        <fa-icon [icon]="faClock" class="icon"></fa-icon>
-        <span class="timer">{{ timer }}</span>
-    </div>
-    
-    <!-- Flag count -->
-    <div class="right">
-        <div class="item flag">
-            <fa-icon [icon]="faFlag" class="icon"></fa-icon>
-            <span>{{ flags }}</span>
-        </div>
-    
-        <!-- Bomb count -->
-        <div class="item bomb">
-            <fa-icon [icon]="faBomb" class="icon"></fa-icon>
-            <span>{{ bombs }}</span>
-        </div>
-    </div>
-
-</div>
+        <!-- Game text (Win or loose) -->
+        <td class="item middle">
+            <span class="win" *ngIf="isWin()">WIN !</span>
+            <span class="loose" *ngIf="isLoose()">LOOSE !</span>
+        </td>
+        
+        <!-- Flag count -->
+        <td class="item right">
+            <div class="item flag">
+                <fa-icon [icon]="faFlag" class="icon"></fa-icon>
+                <span>{{ flags }}</span>
+            </div>
+        
+            <!-- Bomb count -->
+            <div class="item bomb">
+                <fa-icon [icon]="faBomb" class="icon"></fa-icon>
+                <span>{{ bombs }}</span>
+            </div>
+        </td>
+    </tr>
+</table>

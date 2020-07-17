@@ -1,7 +1,7 @@
 @import "../../styles.scss";
 
 .header {
-    max-width: 500px;
+    width: 500px;
     margin: auto;
     padding: 30px;
     border-radius: .35em;
@@ -12,6 +12,16 @@
         span {
             position: relative;
             left: 5px;
+        }
+    }
+    .middle {
+        position: relative;
+        left: 30px;
+        .win {
+            color: $flag-color;
+        }
+        .loose {
+            color: $bomb-color;
         }
     }
     .right {

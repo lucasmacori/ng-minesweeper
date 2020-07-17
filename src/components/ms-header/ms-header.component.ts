@@ -6,11 +6,12 @@ import { IconDefinition, faBomb, faClock, faFlag } from '@fortawesome/free-solid
   templateUrl: './ms-header.component.html',
   styleUrls: ['./ms-header.component.scss']
 })
-export class MsHeaderComponent implements OnInit {
+export class MsHeaderComponent {
 
   public timer: number;
   @Input() bombs: number;
   @Input() flags: number;
+  @Input() win: boolean;
 
   // Icons
   public faClock: IconDefinition = faClock;
@@ -21,7 +22,24 @@ export class MsHeaderComponent implements OnInit {
     this.timer = 0;
   }
 
-  ngOnInit(): void {
+  /**
+   * Returns true if the player won
+   */
+  public isWin(): boolean {
+    if (this.win !== undefined) {
+      return this.win;
+    }
+    return false;
+  }
+
+  /**
+   * Returns true if the player lost
+   */
+  public isLoose(): boolean {
+    if (this.win !== undefined) {
+      return !this.win;
+    }
+    return false;
   }
 
 }

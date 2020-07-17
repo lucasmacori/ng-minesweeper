@@ -1,4 +1,4 @@
-<div class="game" *ngIf="gridIsReady">
+<div class="game" [ngClass]="gridClasses" *ngIf="gridIsReady">
     <div class="row" *ngFor="let row of rows; let y = index">
         <div *ngFor="let cell of row.cells; let x = index" [ngClass]="{ 'cell': true, 'clicked': cell.isClicked, 'flagged': cell.isFlagged,
             'bomb': cell.isBomb && cell.isClicked }" (click)="clickCell(cell, x, y)"
@@ -19,4 +19,10 @@
 
         </div>
     </div>
+</div>
+
+<!-- Restart button -->
+<div class="restart" *ngIf="isEnded" (click)="startGame()">
+    <fa-icon [icon]="faRedo" class="item restart"></fa-icon>
+    <span class="text">Play again</span>
 </div>

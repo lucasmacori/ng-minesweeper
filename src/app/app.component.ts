@@ -14,17 +14,22 @@ export class AppComponent implements AfterViewInit {
 
   public bombs: number;
   public flags: number;
+  public win: boolean;
 
-  constructor (private cdref: ChangeDetectorRef) {
-    this.bombs = 0;
-    this.flags = 0;
-  }
+  constructor (private cdref: ChangeDetectorRef) { }
 
   ngAfterViewInit(): void {
-    this.bombs = this.grid.bombs;
+    this.restart();
 
     // Used to tell Angular that changes occured. Otherwise an error pops in the console since the value hass been changed
     this.cdref.detectChanges();
+  }
+
+  public restart(): void {
+    this.win = undefined;
+    this.bombs = 0;
+    this.flags = 0;
+    this.bombs = this.grid.bombs;
   }
 
   /**
@@ -32,7 +37,7 @@ export class AppComponent implements AfterViewInit {
    * @param win Whether the user won or not
    */
   public endGame(win: boolean): void {
-
+    this.win = win;
   }
 
   /**
