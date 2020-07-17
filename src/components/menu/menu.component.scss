@@ -55,3 +55,43 @@
         }
     }
 }
+
+%formElement {
+    display: block;
+    padding: 10px;
+    border-radius: .50em;
+    border: 0px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.customMenu {
+    width: 500px;
+    margin: auto;
+    .back {
+        .icon {
+            font-size: xx-large;
+        }
+        .text {
+            font-size: larger;
+            position: relative;
+            left: 10px;
+            bottom: 5px;
+        }
+    }
+    input {
+        @extend %formElement;
+        background-color: $cell-bg-color;
+    }
+    button {
+        cursor: pointer;
+        @extend %formElement;
+        width: calc(100% + 20px);
+        background-color: $cell-color;
+        color: white;
+    }
+    button.invalid {
+        background-color: $cell-bg-color;
+        cursor: default;
+    }
+}
