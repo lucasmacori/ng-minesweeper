@@ -1,6 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+// Text properties
 p, a, li, th, td, span, h1, h2, h3, h4, h5, h6, label, input, button {
     font-family: 'Montserrat', sans-serif;
 }
+
+// Colors
+$cell-color: #456BAA;
+$cell-bg-color: #E3E3E3;
+$gray-color: #393939;
+$flag-color: #25BB97;
+$bomb-color: #BB2535;
+$warning-color: #E99121;
+$ok-color: #B6AD3B;

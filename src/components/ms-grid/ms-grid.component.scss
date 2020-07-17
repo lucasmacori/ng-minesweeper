@@ -1,3 +1,5 @@
+@import "../../styles.scss";
+
 %icon {
     position: relative;
     top: 5px;
@@ -7,7 +9,7 @@
     display: flex;
     justify-content: center;
     .cell {
-        background-color: #456BAA;
+        background-color: $cell-color;
         border-radius: .20em;
         width: 50px;
         height: 50px;
@@ -25,28 +27,28 @@
         }
         .item.bomb {
             @extend %icon;
-            color: #393939;
+            color: $gray-color;
         }
         .item.text.one {
-            color: #25BB97;
+            color: $flag-color;
         }
         .item.text.two {
-            color: #B6AD3B;
+            color: $ok-color;
         }
         .item.text.three {
-            color: #E99121;
+            color: $warning-color;
         }
         .item.text.four {
-            color: #BB2535;
+            color: $bomb-color;
         }
     }
     .clicked {
-        background-color: #E3E3E3;
+        background-color: $cell-bg-color;
     }
     .flagged {
-        background-color: #25BB97;
+        background-color: $flag-color;
     }
     .bomb {
-        background-color: #BB2535;
+        background-color: $bomb-color;
     }
 }

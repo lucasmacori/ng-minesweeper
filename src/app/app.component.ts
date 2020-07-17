@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { MsGridComponent } from 'src/components/ms-grid/ms-grid.component';
 
 @Component({
@@ -13,9 +13,18 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('grid') grid: MsGridComponent;
 
   public bombs: number;
+  public flags: number;
+
+  constructor (private cdref: ChangeDetectorRef) {
+    this.bombs = 0;
+    this.flags = 0;
+  }
 
   ngAfterViewInit(): void {
     this.bombs = this.grid.bombs;
+
+    // Used to tell Angular that changes occured. Otherwise an error pops in the console since the value hass been changed
+    this.cdref.detectChanges();
   }
 
   /**
@@ -32,9 +41,13 @@ export class AppComponent implements AfterViewInit {
    */
   public toggleFlagCell(flag: boolean): void {
     if (flag) {
-      this.bombs--;
+      if (this.bombs > 0) {
+        this.bombs--;
+      }
+      this.flags++;
     } else {
       this.bombs++;
+      this.flags--;
     }
   }
 }

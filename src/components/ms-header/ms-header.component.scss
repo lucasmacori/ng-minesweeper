@@ -1,0 +1,29 @@
+@import "../../styles.scss";
+
+.header {
+    max-width: 500px;
+    margin: auto;
+    padding: 30px;
+    border-radius: .35em;
+    border: 1px solid $gray-color;
+    .item {
+        font-size: larger;
+        display: inline;
+        span {
+            position: relative;
+            left: 5px;
+        }
+    }
+    .right {
+        .item {
+            padding-left: 50px;
+        }
+        .flag .icon {
+            color: $flag-color;
+        }
+        .bomb .icon {
+            color: $bomb-color;
+        }
+        float: right;
+    }
+}
