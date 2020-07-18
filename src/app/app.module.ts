@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MsHeaderComponent } from '../components/ms-header/ms-header.component';
 import { MenuComponent } from '../components/menu/menu.component';
 import { OnlyNumbersDirective } from '../directives/only-numbers.directive';
+import { TimerPipe } from '../pipes/timer.pipe';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { OnlyNumbersDirective } from '../directives/only-numbers.directive';
     MsGridComponent,
     MsHeaderComponent,
     MenuComponent,
-    OnlyNumbersDirective
+    OnlyNumbersDirective,
+    TimerPipe
   ],
   imports: [
     BrowserModule,

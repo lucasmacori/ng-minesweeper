@@ -1,6 +1,7 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MenuSelection } from 'src/models/menuSelection.model';
 import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { MsHeaderComponent } from 'src/components/ms-header/ms-header.component';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,8 @@ import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 })
 export class AppComponent {
   title = 'minesweeper';
+
+  @ViewChild('header') header: MsHeaderComponent;
 
   // Icons
   public faTimes: IconDefinition = faTimes;
@@ -26,16 +29,25 @@ export class AppComponent {
     this.selected = false;
   }
 
+  /**
+   * Sets up the game with the menu settings
+   * @param menuSelection The difficulity settings chosen in the main menu
+   */
   public selection(menuSelection: MenuSelection): void {
     this.selected = true;
     this.menuSelection = menuSelection;
   }
 
+  /**
+   * (Re)Starts the game
+   * @param bombs The number of bombs in the grid
+   */
   public restart(bombs: number): void {
     this.win = undefined;
     this.bombs = bombs;
     this.flags = 0;
     this.changeDetector.detectChanges();
+    this.header.startTimer();
   }
 
   /**
@@ -44,6 +56,7 @@ export class AppComponent {
    */
   public endGame(win: boolean): void {
     this.win = win;
+    this.header.stopTimer();
   }
 
   /**

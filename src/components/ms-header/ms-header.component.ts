@@ -9,6 +9,7 @@ import { IconDefinition, faBomb, faClock, faFlag } from '@fortawesome/free-solid
 export class MsHeaderComponent {
 
   public timer: number;
+  private timerStop: boolean;
   @Input() bombs: number;
   @Input() flags: number;
   @Input() win: boolean;
@@ -18,8 +19,26 @@ export class MsHeaderComponent {
   public faBomb: IconDefinition = faBomb;
   public faFlag: IconDefinition = faFlag;
 
-  constructor() {
+  constructor() {}
+
+  /**
+   * Starts the timer
+   */
+  public startTimer(): void {
     this.timer = 0;
+    this.timerStop = false;
+    setInterval(() => {
+      if (!this.timerStop) {
+        this.timer++;
+      }
+    }, 1000);
+  }
+
+  /**
+   * Stops the timer
+   */
+  public stopTimer(): void {
+    this.timerStop = true;
   }
 
   /**
