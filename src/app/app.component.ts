@@ -2,6 +2,9 @@ import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MenuSelection } from 'src/models/menuSelection.model';
 import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { MsHeaderComponent } from 'src/components/ms-header/ms-header.component';
+import { ConfigService } from 'src/services/config.service';
+import { Score } from 'src/models/score.model';
+import { MsGridComponent } from 'src/components/ms-grid/ms-grid.component';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +15,7 @@ export class AppComponent {
   title = 'minesweeper';
 
   @ViewChild('header') header: MsHeaderComponent;
+  @ViewChild('grid') grid: MsGridComponent;
 
   // Icons
   public faTimes: IconDefinition = faTimes;
@@ -25,7 +29,7 @@ export class AppComponent {
   public flags: number;
   public win: boolean;
 
-  constructor (private changeDetector: ChangeDetectorRef) {
+  constructor (private changeDetector: ChangeDetectorRef, private configService: ConfigService) {
     this.selected = false;
   }
 
@@ -57,6 +61,19 @@ export class AppComponent {
   public endGame(win: boolean): void {
     this.win = win;
     this.header.stopTimer();
+
+    // If the player won, saving their score in the database
+    if (win) {
+      const score: Score = {
+        cols: this.menuSelection.width,
+        rows: this.menuSelection.height,
+        bombs: this.grid.bombs,
+        time: this.header.timer
+      };
+  
+      // Saving the score
+      this.configService.saveScore(score);
+    }
   }
 
   /**

@@ -27,7 +27,10 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "ngx-electron": "^2.2.0",
     "rxjs": "~6.5.4",
+    "sqlite": "^4.0.11",
+    "sqlite3": "^5.0.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },

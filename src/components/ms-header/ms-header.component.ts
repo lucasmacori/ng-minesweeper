@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { IconDefinition, faBomb, faClock, faFlag } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -9,6 +9,7 @@ import { IconDefinition, faBomb, faClock, faFlag } from '@fortawesome/free-solid
 export class MsHeaderComponent {
 
   public timer: number;
+  private timerStarted: boolean;
   private timerStop: boolean;
   @Input() bombs: number;
   @Input() flags: number;
@@ -27,11 +28,14 @@ export class MsHeaderComponent {
   public startTimer(): void {
     this.timer = 0;
     this.timerStop = false;
-    setInterval(() => {
-      if (!this.timerStop) {
-        this.timer++;
-      }
-    }, 1000);
+    if (!this.timerStarted) {
+      this.timerStarted = true;
+      setInterval(() => {
+        if (!this.timerStop) {
+          this.timer++;
+        }
+      }, 1000);
+    }
   }
 
   /**
