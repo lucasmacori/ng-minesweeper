@@ -49,6 +49,17 @@ open({
                 .catch((err) => {
                   console.log(`Could not save the score to the database: ${err}`);
                 });
+            })
+            .on('getScores', (event) => {
+              // Fetching the scores from the database
+              db.all('SELECT score_cols, score_rows, score_bombs, score_time FROM score')
+                .then((scores) => {
+                  event.returnValue = scores;
+                })
+                .catch((err) => {
+                  console.log(`Could not fetch the scores from the database: ${err}`);
+                  event.returnValue = [];
+                });
             });
 
           console.log('App started');

@@ -52,6 +52,11 @@
         }
         .custom.button {
             background-color: $cell-bg-color;
+            color: $gray-color;
+        }
+        .scores.button {
+            background-color: $cell-bg-color;
+            color: $gray-color;
         }
     }
 }
@@ -65,20 +70,21 @@
     width: 100%;
 }
 
+.back {
+    .icon {
+        font-size: xx-large;
+    }
+    .text {
+        font-size: larger;
+        position: relative;
+        left: 10px;
+        bottom: 5px;
+    }
+}
+
 .customMenu {
     width: 500px;
     margin: auto;
-    .back {
-        .icon {
-            font-size: xx-large;
-        }
-        .text {
-            font-size: larger;
-            position: relative;
-            left: 10px;
-            bottom: 5px;
-        }
-    }
     input {
         @extend %formElement;
         background-color: $cell-bg-color;
@@ -93,6 +99,31 @@
     button.invalid {
         background-color: $cell-bg-color;
         cursor: default;
+    }
+}
+
+.scoresMenu {
+    width: 500px;
+    margin: auto;
+    .scoresTable {
+        width: 100%;
+        tr.header {
+            background-color: $gray-color;
+            color: white;
+        }
+        tr.data {
+            background-color: $cell-bg-color;
+        }
+        td, th {
+            padding: 3px;
+            text-align: center;
+        }
+    }
+    .noData {
+        text-align: center;
+        .text {
+            font-size: xx-large;
+        }
     }
 }
 

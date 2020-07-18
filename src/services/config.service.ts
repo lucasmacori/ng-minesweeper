@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { Score } from 'src/models/score.model';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class ConfigService {

@@ -1,8 +1,11 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { IconDefinition, faWrench, faBomb, faArrowLeft, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { IconDefinition, faWrench, faBomb, faArrowLeft, faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faAngular } from '@fortawesome/free-brands-svg-icons';
 import { MenuSelection } from './../../models/menuSelection.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Score } from 'src/models/score.model';
+import { ConfigService } from 'src/services/config.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -17,6 +20,7 @@ export class MenuComponent implements OnInit {
   public faBomb: IconDefinition = faBomb;
   public faWrench: IconDefinition = faWrench;
   public faArrowLeft: IconDefinition = faArrowLeft;
+  public faTrophy: IconDefinition = faTrophy;
   public faAngular: IconDefinition = faAngular;
   public faHeart: IconDefinition = faHeart;
   public faGithub: IconDefinition = faGithub;
@@ -26,9 +30,14 @@ export class MenuComponent implements OnInit {
   public customFormGroup: FormGroup;
   public customSubmitClasses: object;
 
-  constructor() {
+  // Scores menu
+  public showScoresMenu: boolean
+  public scores: Array<Score>;
+
+  constructor(private configService: ConfigService) {
     this.selection = new EventEmitter<MenuSelection>();
     this.showCustomMenu = false;
+    this.showScoresMenu = false;
   }
 
   public ngOnInit(): void {
@@ -42,6 +51,12 @@ export class MenuComponent implements OnInit {
     });
   }
 
+  /**
+   * 
+   * @param mode The selected difficulty mode
+   * @param width The number of columns (if custom mode)
+   * @param height The number of rows (if custom mode)
+   */
   public selectMode(mode: string, width?: number, height?: number): void {
     const menuSelection: MenuSelection = { width: 0, height: 0};
     
@@ -77,6 +92,9 @@ export class MenuComponent implements OnInit {
     this.selection.emit(menuSelection);
   }
 
+  /**
+   * Fetches the number of rows and columns and starts the custom mode
+   */
   public selectCustomMode(): void {
     if (this.customFormGroup.valid) {
       const width = this.customFormGroup.value.cols;
@@ -85,7 +103,34 @@ export class MenuComponent implements OnInit {
     }
   }
 
+  /**
+   * Shows or hides the custom mode menu
+   */
   public toggleCustomMenu(): void {
     this.showCustomMenu = !this.showCustomMenu;
+  }
+
+  /**
+   * Shows or hides the scores menu
+   */
+  public toggleScoresMenu(): void {
+    this.showScoresMenu = !this.showScoresMenu;
+
+    // Fetching the scores from the database
+    if (this.showScoresMenu) {
+      this.scores = this.configService.getScores();
+      this.scores = this.renameAttribute(this.scores, 'score_cols', 'cols');
+      this.scores = this.renameAttribute(this.scores, 'score_rows', 'rows');
+      this.scores = this.renameAttribute(this.scores, 'score_bombs', 'bombs');
+      this.scores = this.renameAttribute(this.scores, 'score_time', 'time');
+    }
+  }
+
+  private renameAttribute(objs: Array<Score>, oldAttribute: string, newAttribute: string): Array<Score> {
+    objs.forEach(function(e) {
+      e[newAttribute] = e[oldAttribute];
+      delete e[oldAttribute];    
+    });
+    return objs;
   }
 }

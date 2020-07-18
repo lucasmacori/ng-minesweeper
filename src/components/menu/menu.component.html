@@ -7,7 +7,7 @@
     </div>
 
     <!-- Difficulty selection buttons -->
-    <div class="buttons" *ngIf="!showCustomMenu">
+    <div class="buttons" *ngIf="!showCustomMenu && !showScoresMenu">
 
         <!-- Easy -->
         <div class="easy button" (click)="selectMode('EASY')">
@@ -32,12 +32,32 @@
         <!-- Custom -->
         <div class="custom button" (click)="toggleCustomMenu()">
             <fa-icon [icon]="faWrench" class="icon"></fa-icon>
-            <span class="text">CUSTOM</span>
+            <span class="text">CUSTOM GAME</span>
         </div>
+
+        <!-- Scores -->
+        <div class="scores button" (click)="toggleScoresMenu()">
+            <fa-icon [icon]="faTrophy" class="icon"></fa-icon>
+            <span class="text">SCORES</span>
+        </div>
+
+        <!-- Footer informations -->
+        <footer>
+            <p>
+                Made with
+                <fa-icon class="red icon" [icon]="faAngular"></fa-icon> 
+                and
+                <fa-icon class="red icon" [icon]="faHeart"></fa-icon>  
+                by Lucas MACORI
+            </p>
+            <a href="https://github.com/LegitBaboulinet/ng-minesweeper" target="_blank">
+                <fa-icon class="github icon" [icon]="faGithub"></fa-icon>
+            </a>
+        </footer>
     </div>
 </div>
 
-<div class="customMenu" *ngIf="showCustomMenu">
+<div class="customMenu" *ngIf="showCustomMenu && !showScoresMenu">
 
     <!-- Back button -->
     <div class="back selectable" (click)="toggleCustomMenu()">
@@ -59,15 +79,31 @@
     </form>
 </div>
 
-<footer>
-    <p>
-        Made with
-        <fa-icon class="red icon" [icon]="faAngular"></fa-icon> 
-        and
-        <fa-icon class="red icon" [icon]="faHeart"></fa-icon>  
-        by Lucas MACORI
-    </p>
-    <a href="https://github.com/LegitBaboulinet/ng-minesweeper" target="_blank">
-        <fa-icon class="github icon" [icon]="faGithub"></fa-icon>
-    </a>
-</footer>
+<div class="scoresMenu" *ngIf="showScoresMenu && !showCustomMenu">
+    <!-- Back button -->
+    <div class="back selectable" (click)="toggleScoresMenu()">
+        <fa-icon class="icon" [icon]="faArrowLeft"></fa-icon>
+        <span class="text">GO BACK TO MENU</span>
+    </div>
+
+    <!-- Scores table -->
+    <table class="scoresTable" *ngIf="scores && scores.length > 0">
+        <tr class="header">
+            <th>Columns</th>
+            <th>Rows</th>
+            <th>Bombs</th>
+            <th>Time</th>
+        </tr>
+        <tr class="data" *ngFor="let score of scores">
+            <td>{{ score.cols }}</td>
+            <td>{{ score.rows }}</td>
+            <td>{{ score.bombs }}</td>
+            <td>{{ score.time | timer }}</td>
+        </tr>
+    </table>
+
+    <!-- No data message -->
+    <div class="noData" *ngIf="!scores || scores.length === 0">
+        <span class="text">NO SAVED SCORES YET</span>
+    </div>
+</div>
