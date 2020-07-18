@@ -67,8 +67,10 @@ export class AppComponent {
       const score: Score = {
         cols: this.menuSelection.width,
         rows: this.menuSelection.height,
+        mode: this.menuSelection.mode,
         bombs: this.grid.bombs,
-        time: this.header.timer
+        time: this.header.timer,
+        date: new Date()
       };
   
       // Saving the score

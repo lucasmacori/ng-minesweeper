@@ -89,16 +89,23 @@
     <!-- Scores table -->
     <table class="scoresTable" *ngIf="scores && scores.length > 0">
         <tr class="header">
+            <th>Mode</th>
             <th>Columns</th>
             <th>Rows</th>
             <th>Bombs</th>
             <th>Time</th>
+            <th>Date</th>
         </tr>
         <tr class="data" *ngFor="let score of scores">
+            <td [ngClass]="{ 'easy': score.mode === 'EASY', 'normal': score.mode === 'NORMAL', 'hard': score.mode === 'HARD',
+                'hardcore': score.mode === 'HARDCORE', 'custom': score.mode === 'CUSTOM' }">
+                {{ score.mode }}
+            </td>
             <td>{{ score.cols }}</td>
             <td>{{ score.rows }}</td>
             <td>{{ score.bombs }}</td>
             <td>{{ score.time | timer }}</td>
+            <td>{{ score.date | date:'dd/MM/yyyy HH:mm' }}</td>
         </tr>
     </table>
 

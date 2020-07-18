@@ -3,4 +3,6 @@ export interface Score {
     cols: number;
     rows: number;
     bombs: number;
+    mode: string;
+    date: Date;
 }

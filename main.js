@@ -37,11 +37,13 @@ open({
             .on('saveScore', (event, score) => {
               // Saving the score in the database
               db.run(
-                'INSERT INTO score (score_cols, score_rows, score_bombs, score_time) VALUES (?, ?, ?, ?)',
+                'INSERT INTO score (score_mode, score_cols, score_rows, score_bombs, score_time, score_date) VALUES (?, ?, ?, ?, ?, ?)',
+                score.mode.toString().toUpperCase(),
                 score.cols,
                 score.rows,
                 score.bombs,
-                score.time
+                score.time,
+                score.date.toString()
               )
                 .then(() => {
                   console.log('New score saved to the database');
@@ -52,7 +54,7 @@ open({
             })
             .on('getScores', (event) => {
               // Fetching the scores from the database
-              db.all('SELECT score_cols, score_rows, score_bombs, score_time FROM score')
+              db.all('SELECT score_mode, score_cols, score_rows, score_bombs, score_time, score_date FROM score ORDER BY score_date DESC')
                 .then((scores) => {
                   event.returnValue = scores;
                 })

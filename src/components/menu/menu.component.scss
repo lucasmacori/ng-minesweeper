@@ -113,6 +113,21 @@
         }
         tr.data {
             background-color: $cell-bg-color;
+            td.easy {
+                color: $ok-color;
+            }
+            td.normal {
+                color: $warning-color;
+            }
+            td.hard {
+                color: $bomb-color;
+            }
+            td.hardcore {
+                color: $gray-color;
+            }
+            td.custom {
+                color: $cell-color;
+            }
         }
         td, th {
             padding: 3px;

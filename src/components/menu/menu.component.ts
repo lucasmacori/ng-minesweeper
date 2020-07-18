@@ -58,29 +58,34 @@ export class MenuComponent implements OnInit {
    * @param height The number of rows (if custom mode)
    */
   public selectMode(mode: string, width?: number, height?: number): void {
-    const menuSelection: MenuSelection = { width: 0, height: 0};
+    const menuSelection: MenuSelection = { width: 0, height: 0, mode: '' };
     
     // Selecting the mode
     switch (mode.toUpperCase()) {
       case 'EASY':
         menuSelection.width = 5;
         menuSelection.height = 5;
+        menuSelection.mode = 'EASY';
         break;
       case 'NORMAL':
         menuSelection.width = 9;
         menuSelection.height = 9;
+        menuSelection.mode = 'NORMAL';
         break;
       case 'HARD':
         menuSelection.width = 15;
         menuSelection.height = 15;
+        menuSelection.mode = 'HARD';
         break;
       case 'HARDCORE':
         menuSelection.width = 30;
         menuSelection.height = 30;
+        menuSelection.mode = 'HARDCORE';
         break;
       case 'CUSTOM':
         menuSelection.width = width;
         menuSelection.height = height;
+        menuSelection.mode = 'CUSTOM';
         if (!width || !height) {
           return;
         }
@@ -119,11 +124,15 @@ export class MenuComponent implements OnInit {
     // Fetching the scores from the database
     if (this.showScoresMenu) {
       this.scores = this.configService.getScores();
+      this.scores = this.renameAttribute(this.scores, 'score_mode', 'mode');
       this.scores = this.renameAttribute(this.scores, 'score_cols', 'cols');
       this.scores = this.renameAttribute(this.scores, 'score_rows', 'rows');
       this.scores = this.renameAttribute(this.scores, 'score_bombs', 'bombs');
       this.scores = this.renameAttribute(this.scores, 'score_time', 'time');
+      this.scores = this.renameAttribute(this.scores, 'score_date', 'date');
     }
+
+    console.log(this.scores);
   }
 
   private renameAttribute(objs: Array<Score>, oldAttribute: string, newAttribute: string): Array<Score> {
