@@ -5,4 +5,9 @@ CREATE TABLE IF NOT EXISTS score (
 	score_bombs INT NOT NULL,
 	score_time INT NOT NULL,
 	score_date TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS setting (
+	name VARCHAR(50) NOT NULL PRIMARY KEY,
+	value TEXT NOT NULL
 )
