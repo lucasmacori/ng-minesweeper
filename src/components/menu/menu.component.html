@@ -69,13 +69,18 @@
     <form [formGroup]="customFormGroup">
 
         <!-- Fields -->
-        <input appOnlyNumbers type="text" min="4" max="99999" placeholder="COLUMNS" formControlName="cols" />
-        <input appOnlyNumbers type="text" min="4" max="99999" placeholder="ROWS" formControlName="rows" />
+        <input appOnlyNumbers type="text" min="4" max="50" placeholder="COLUMNS" formControlName="cols" />
+        <input appOnlyNumbers type="text" min="4" max="50" placeholder="ROWS" formControlName="rows" />
 
         <!-- Validation button -->
         <button type="submit" [ngClass]="customSubmitClasses" (click)="selectCustomMode()">
             PLAY CUSTOM GAME
         </button>
+
+        <!-- Error in form -->
+        <span class="error" *ngIf="customFormGroup.controls['cols'].hasError('max') || customFormGroup.controls['rows'].hasError('max')">
+            The maximum grid size is 50x50
+        </span>
     </form>
 </div>
 

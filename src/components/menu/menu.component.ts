@@ -42,8 +42,8 @@ export class MenuComponent implements OnInit {
 
   public ngOnInit(): void {
     this.customFormGroup = new FormGroup({
-      cols: new FormControl('', [ Validators.min(4), Validators.max(99999), Validators.required ]),
-      rows: new FormControl('', [ Validators.min(4), Validators.max(99999), Validators.required ])
+      cols: new FormControl('', [ Validators.min(4), Validators.max(50), Validators.required ]),
+      rows: new FormControl('', [ Validators.min(4), Validators.max(50), Validators.required ])
     });
     this.customSubmitClasses = { invalid: !this.customFormGroup.valid };
     this.customFormGroup.valueChanges.subscribe(() => {
